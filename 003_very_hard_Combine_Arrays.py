@@ -14,25 +14,35 @@ combine_lists([1, 2, 3], [4, 5, 6], [7, 8, 9]) ➞ [[1, 4, 7], [2, 5,  8], [3, 6
 combine_lists(["Jack", "Joe", "Jill"], ["Stuart", "Sammy", "Silvia"], ["Rick", "Raymond", "Riri"]) ➞ [["Jack", "Stuart", "Rick"], ["Joe", "Sammy",  "Raymond"], ["Jill", "Silvia", "Riri"]]
 
 """
+from itertools import zip_longest
 
-def combine_lists(lst1, lst2, lst3):
+def combine_lists(*lists):
 
-    lst_all = [lst1, lst2, lst3]
-    max_len = max(len(sublist) for sublist in lst_all)
-    dummy_lst = [["" for _ in range(max_len)] for _ in range(len(lst_all))]
+    # 最大の長さを取得
+    max_len = max(len(lst) for lst in lists)
 
-    for dummy_sub, lst_sub in zip(dummy_lst, lst_all):
-        sub_n = (len(dummy_sub) - len(lst_sub))
-        if sub_n > 0:
-            lst_sub.append("*" * sub_n)
+    # リストを'*'で埋めて長さを揃える
+    padded_lists = [lst + ['*'] * (max_len - len(lst)) for lst in lists]
 
-    transposed = []
-    for i in range(max_len):
-        new_row = []
-        for sublist in lst_all:
-            new_row.append(sublist[i])
-        transposed.append(new_row)
-    return transposed
+    # 転置
+    return list(map(list, zip(*padded_lists)))
+
+    # lst_all = [lst1, lst2, lst3]
+    # max_len = max(len(sublist) for sublist in lst_all)
+    # dummy_lst = [["" for _ in range(max_len)] for _ in range(len(lst_all))]
+
+    # for dummy_sub, lst_sub in zip(dummy_lst, lst_all):
+    #     sub_n = (len(dummy_sub) - len(lst_sub))
+    #     if sub_n > 0:
+    #         lst_sub.append("*" * sub_n)
+    #
+    # transposed = []
+    # for i in range(max_len):
+    #     new_row = []
+    #     for sublist in lst_all:
+    #         new_row.append(sublist[i])
+    #     transposed.append(new_row)
+    # return transposed
 
 
 print(combine_lists([False, 'False'], ['True', True, 'bool'], ['None', 'undefined'])) # [[False, 'True', 'None'], ['False', True, 'undefined'], ['*', 'bool', '*']])
