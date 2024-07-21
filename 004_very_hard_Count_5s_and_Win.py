@@ -15,13 +15,23 @@ Return None if given an empty list.
 """
 
 def get_luckiest(list_of_numbers):
+    if not list_of_numbers:
+        return None
 
-    if any('5' in str(num) for num in list_of_numbers):
-        value_5counts = {num: str(num).count('5') for num in list_of_numbers}
-        max_value = max(value_5counts.values())
-        max_value_5counts = {k: v for k, v in value_5counts.items() if v == max_value}
-        return max(max_value_5counts)
+    def five_count(num):
+        return str(num).count('5')
+
+    numbers_with_five = [num for num in list_of_numbers if '5' in str(num)]
+    if numbers_with_five:
+        return max(numbers_with_five, key=lambda x: (five_count(x), x))
     return list_of_numbers[0]
+
+    # if any('5' in str(num) for num in list_of_numbers):
+    #     value_5counts = {num: str(num).count('5') for num in list_of_numbers}
+    #     max_value = max(value_5counts.values())
+    #     max_value_5counts = {k: v for k, v in value_5counts.items() if v == max_value}
+    #     return max(max_value_5counts)
+    # return list_of_numbers[0]
 
 
 print(get_luckiest([5, 12, 55, 11]))
