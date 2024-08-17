@@ -19,40 +19,48 @@ Your function will get an address line (string) separated by comma's.
 The input format will always be the same.
 Watch out for the different suffixes!
 """
-
 import re
-# 先頭が空白1文字、その後に数字、アルファベット大文字2文字のパターン
-pattern_1 = r'^ \d+\s+[A-Z]{2}'
-pattern_2 = r'\d[\d\s\w\W]*\d*'
 
 def kix_code(addr):
+    parts = re.search(r'(\d+.*), (\d{4}) (\w{2})', addr)
+    fill = re.sub(r'\W', 'X', parts.group(1))
+    kix = '{}{}{}'.format(parts.group(2), parts.group(3), fill.upper())
+    return kix
 
-    result = []
 
-    addr = [word for word in addr.split(',')]
-
-    for word in addr[::-1]:
-        match_1 = re.search(pattern_1, word)
-        match_2 = re.search(pattern_2, word)
-        if match_1:
-            result.append(match_1.group())
-        if match_2:
-            result.append(match_2.group())
-
-    result.pop(1)
-
-    def replace_special_characters(input_string):
-        input_string = input_string.lstrip()
-        step1 = re.sub(r'[^\w]', 'X', input_string)
-        result = step1.upper()
-        return result
-
-    w = replace_special_characters(result[-1])
-    result[-1] = w
-
-    combined_string = ''.join(result)
-    result = combined_string.replace(' ', '')
-    return result
+# import re
+# # 先頭が空白1文字、その後に数字、アルファベット大文字2文字のパターン
+# pattern_1 = r'^ \d+\s+[A-Z]{2}'
+# pattern_2 = r'\d[\d\s\w\W]*\d*'
+#
+# def kix_code(addr):
+#
+#     result = []
+#
+#     addr = [word for word in addr.split(',')]
+#
+#     for word in addr[::-1]:
+#         match_1 = re.search(pattern_1, word)
+#         match_2 = re.search(pattern_2, word)
+#         if match_1:
+#             result.append(match_1.group())
+#         if match_2:
+#             result.append(match_2.group())
+#
+#     result.pop(1)
+#
+#     def replace_special_characters(input_string):
+#         input_string = input_string.lstrip()
+#         step1 = re.sub(r'[^\w]', 'X', input_string)
+#         result = step1.upper()
+#         return result
+#
+#     w = replace_special_characters(result[-1])
+#     result[-1] = w
+#
+#     combined_string = ''.join(result)
+#     result = combined_string.replace(' ', '')
+#     return result
 
 
 
