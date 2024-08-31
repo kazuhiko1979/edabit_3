@@ -12,23 +12,36 @@ Notes
 There are possibly two or more numbers in a single word (I do not recommend splitting the text at spaces, it surely won't help).
 Anything separates two numbers, even spaces ("2 2" --> "10 10").
 """
-def replace_nums(string):
-    def process_number(num):
-        return bin(int(num))[2:] if num else ''
+import re
 
-    result = []
-    current_number = ''
+def replace_nums(s):
 
-    for char in string:
-        if char.isdigit():
-            current_number += char
-        else:
-            result.append(process_number(current_number))
-            result.append(char)
-            current_number = ''
+    def to_binary(match):
+        number = int(match.group())
+        binary = bin(number)[2:] # Convert to binary and remove '0b' prefix
+        return binary
 
-    result.append(process_number(current_number))  # Handle number at end of string
-    return ''.join(result)
+    pattern = r'\d+' # Matches one or more digits
+    return re.sub(pattern, to_binary, s)
+
+
+# def replace_nums(string):
+#     def process_number(num):
+#         return bin(int(num))[2:] if num else ''
+#
+#     result = []
+#     current_number = ''
+#
+#     for char in string:
+#         if char.isdigit():
+#             current_number += char
+#         else:
+#             result.append(process_number(current_number))
+#             result.append(char)
+#             current_number = ''
+#
+#     result.append(process_number(current_number))  # Handle number at end of string
+#     return ''.join(result)
 
 
 # def replace_nums(string):
