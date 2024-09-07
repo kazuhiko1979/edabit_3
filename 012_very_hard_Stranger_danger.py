@@ -21,26 +21,21 @@ def no_strangers(txt):
 
     words = re.findall(r"\b[\w']+\b", txt.lower())
     words_counts = OrderedDict()
-    words_count_3 = []
-    words_count_5_plus = []
-    result = []
+    acquaintances = []
+    friends = []
 
     for word in words:
-        if word in words_counts:
-            words_counts[word] += 1
-            count = words_counts[word]
-            if count == 3:
-                words_count_3.append(word)
-            elif count == 5:
-                if word in words_count_3:
-                    words_count_3.remove(word)
-                words_count_5_plus.append(word)
-        else:
-            words_counts[word] = 1
+        count = words_counts.get(word, 0) + 1
+        words_counts[word] = count
 
-    result.append(words_count_3)
-    result.append(words_count_5_plus)
-    return result
+        if count == 3:
+            acquaintances.append(word)
+        elif count == 5:
+            if word in acquaintances:
+                acquaintances.remove(word)
+            friends.append(word)
+
+    return [acquaintances, friends]
 
 t1 = '''Billy always listens to his mother. He always does what she says. If his mother says, "Brush your teeth," Billy brushes his teeth. If his mother says, "Go to bed," Billy goes to bed. Billy is a very good boy. A good boy listens to his mother. His mother doesn't have to ask him again. She asks him to do something one time, and she doesn't ask again. Billy is a good boy. He does what his mother asks the first time. She doesn't have to ask again. She tells Billy, "You are my best child." Of course Billy is her best child. Billy is her only child.'''
 t2 = '''Facts are meaningless. You could use facts to prove anything that's even remotely true. Old people don't need companionship. They need to be isolated and studied so it can be determined what nutrients they have that might be extracted for our personal use. You don't like your job, you don't strike. You go in every day and do it really half-assed. That's the American way. Don't kid yourself, Jimmy. If a cow ever got the chance, he'd eat you and everyone you care about. You don't win friends with salad. Kids, we need to talk for a moment about Krusty Brand Chew Goo Gum Like Substance. We all knew it contained spider eggs, but the hantavirus came out of left field. Fame was like a drug. But what was even more like a drug were the drugs. Well, he's kind of had it in for me ever since I accidentally ran over his dog. Actually, replace "accidentally" with "repeatedly" and replace "dog" with "son".'''
