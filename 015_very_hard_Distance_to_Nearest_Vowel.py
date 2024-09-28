@@ -15,34 +15,39 @@ All input strings will contain at least one vowel.
 Strings will be lowercased.
 Vowels are: a, e, i, o, u.
 """
-
 def distance_to_nearest_vowel(txt):
 
-    vowels = set("aeiou")
-    result = []
+    p = [i for i, c in enumerate(txt) if c in "aeiou"]
+    return [min(abs(j-x) for x in p) for j in range(len(txt))]
 
-    for current_index, char in enumerate(txt):
-        if char.lower in vowels:
-            result.append(0)
-        else:
-            left_distance = float('inf')
-            right_distance = float('inf')
 
-            # move left
-            for i in range(current_index, -1, -1):
-                if txt[i].lower() in vowels:
-                    left_distance = current_index - i
-                    break
-
-            # move right
-            for i in range(current_index+1, len(txt)):
-                if txt[i].lower() in vowels:
-                    right_distance = i - current_index
-                    break
-
-            result.append(min(left_distance, right_distance))
-
-    return result
+# def distance_to_nearest_vowel(txt):
+#
+#     vowels = set("aeiou")
+#     result = []
+#
+#     for current_index, char in enumerate(txt):
+#         if char.lower in vowels:
+#             result.append(0)
+#         else:
+#             left_distance = float('inf')
+#             right_distance = float('inf')
+#
+#             # move left
+#             for i in range(current_index, -1, -1):
+#                 if txt[i].lower() in vowels:
+#                     left_distance = current_index - i
+#                     break
+#
+#             # move right
+#             for i in range(current_index+1, len(txt)):
+#                 if txt[i].lower() in vowels:
+#                     right_distance = i - current_index
+#                     break
+#
+#             result.append(min(left_distance, right_distance))
+#
+#     return result
 
 print(distance_to_nearest_vowel("aaaaa"))
 print(distance_to_nearest_vowel("babbb"))
