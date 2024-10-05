@@ -46,48 +46,103 @@ Remember the rule for numbers: "10" is a word, so its value is 1+0 and not 10.
 """
 import re
 import math
+from typing import List, Tuple
 
-def is_prime(n):
+def is_prime(n: int) -> bool:
+    """Check if a number is prime."""
     if n < 2:
         return False
-    for i in range(2, int(math.sqrt(n)) + 1):
-        if n % i == 0:
-            return False
-    return True
+    return all(n % i != 0 for i in range(2, int(math.sqrt(n)) + 1))
 
-def sentence_primeness(sentence):
+def word_to_value(word: str) -> int:
+    """Convert a word to its numeric value."""
+    return sum(
+        ord(char.lower()) - ord('a') + 1 if char.isalpha() else int(char)
+        for char in word if char.isalpha() or char.isdigit()
+    )
 
+def process_sentence(sentence: str) -> Tuple[List[str], List[int]]:
+    """Process a sentence into words and their corresponding values."""
     words = re.findall(r'\b[a-zA-Z]+\b|\b\d+\b', sentence)
-    word_sums = []
-    for word in words:
-        word_sum = 0
-        for char in word:
-            if char.isalpha():
-                # アルファベットの場合
-                word_sum += ord(char.lower()) - ord('a') + 1
-            elif char.isdigit():
-                # 数字の場合
-                word_sum += int(char)
-        word_sums.append(word_sum)
+    word_values = [word_to_value(word) for word in words]
+    return words, word_values
 
-    if is_prime(sum(word_sums)):
+def sentence_primeness(sentence: str) -> str:
+    """Determine the primeness category of a sentence."""
+    words, word_values = process_sentence(sentence)
+    total_sum = sum(word_values)
+
+    if is_prime(total_sum):
         return "Prime Sentence"
-    else:
-        for word, sum_value in zip(words, word_sums):
-            if is_prime(sum(word_sums) - sum_value):
-                return "Almost Prime Sentence ({})".format(word)
-        else:
-            return "Composite Sentence"
+
+    for word, value in zip(words, word_values):
+        if is_prime(total_sum - value):
+            return f"Almost Prime Sentence ({word})"
+
+    return "Composite Sentence"
+
+# テストケース
+test_sentences = [
+    "Help me!",
+    "42 is THE aNsWeR...",
+    "Did you Smoke?",
+    "She SellS SeaShellS by the SeaShore",
+    "Lorem. Ipsum. Dolor. Sit. Amet.",
+    "three fASt hUNgry aniMALs -aNd- 3 slow faTTy kiDS",
+    "This is a 'Prime' Sentence",
+    "this is a composite sentence",
+    "Primes, PRIMES EVERYWHERE!",
+    "10 test cases are enough, this is the last one!"
+]
+
+for sentence in test_sentences:
+    print(sentence_primeness(sentence))
 
 
-print(sentence_primeness("Help me!")) #, "Prime Sentence", "Example #1")
-print(sentence_primeness("42 is THE aNsWeR...")) #, "Almost Prime Sentence (aNsWeR)", "Example #2")
-print(sentence_primeness("Did you Smoke?")) #, "Composite Sentence", "Example #3")
-print(sentence_primeness("She SellS SeaShellS by the SeaShore")) #, "Prime Sentence")
-print(sentence_primeness("Lorem. Ipsum. Dolor. Sit. Amet.")) #, "Almost Prime Sentence (Lorem)")
-print(sentence_primeness("three fASt hUNgry aniMALs -aNd- 3 slow faTTy kiDS")) # , "Almost Prime Sentence (aniMALs)")
-print(sentence_primeness("This is a 'Prime' Sentence")) #, "Composite Sentence")
-print(sentence_primeness("this is a composite sentence")) #, "Almost Prime Sentence (this)")
-print(sentence_primeness("Primes, PRIMES EVERYWHERE!")) #, "Composite Sentence")
-print(sentence_primeness("10 test cases are enough, this is the last one!")) #, "Prime Sentence")
+# import re
+# import math
+#
+# def is_prime(n):
+#     if n < 2:
+#         return False
+#     for i in range(2, int(math.sqrt(n)) + 1):
+#         if n % i == 0:
+#             return False
+#     return True
+#
+# def sentence_primeness(sentence):
+#
+#     words = re.findall(r'\b[a-zA-Z]+\b|\b\d+\b', sentence)
+#     word_sums = []
+#     for word in words:
+#         word_sum = 0
+#         for char in word:
+#             if char.isalpha():
+#                 # アルファベットの場合
+#                 word_sum += ord(char.lower()) - ord('a') + 1
+#             elif char.isdigit():
+#                 # 数字の場合
+#                 word_sum += int(char)
+#         word_sums.append(word_sum)
+#
+#     if is_prime(sum(word_sums)):
+#         return "Prime Sentence"
+#     else:
+#         for word, sum_value in zip(words, word_sums):
+#             if is_prime(sum(word_sums) - sum_value):
+#                 return "Almost Prime Sentence ({})".format(word)
+#         else:
+#             return "Composite Sentence"
+
+
+# print(sentence_primeness("Help me!")) #, "Prime Sentence", "Example #1")
+# print(sentence_primeness("42 is THE aNsWeR...")) #, "Almost Prime Sentence (aNsWeR)", "Example #2")
+# print(sentence_primeness("Did you Smoke?")) #, "Composite Sentence", "Example #3")
+# print(sentence_primeness("She SellS SeaShellS by the SeaShore")) #, "Prime Sentence")
+# print(sentence_primeness("Lorem. Ipsum. Dolor. Sit. Amet.")) #, "Almost Prime Sentence (Lorem)")
+# print(sentence_primeness("three fASt hUNgry aniMALs -aNd- 3 slow faTTy kiDS")) # , "Almost Prime Sentence (aniMALs)")
+# print(sentence_primeness("This is a 'Prime' Sentence")) #, "Composite Sentence")
+# print(sentence_primeness("this is a composite sentence")) #, "Almost Prime Sentence (this)")
+# print(sentence_primeness("Primes, PRIMES EVERYWHERE!")) #, "Composite Sentence")
+# print(sentence_primeness("10 test cases are enough, this is the last one!")) #, "Prime Sentence")
 
