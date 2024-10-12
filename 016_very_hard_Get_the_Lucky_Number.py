@@ -49,17 +49,13 @@ Despite this sieve has similarities with the "Sieve of Eratosthenes" used for re
 def get_lucky_number(size, nth):
 
     used_index = [1]
-
-    numbers = [i for i in range(1, size + 1)]
+    numbers = set(range(1, size + 1))
 
     while len(used_index) < nth:
-
-        new_index = min(num for num in numbers if num not in used_index)
-        numbers = [num for index, num in enumerate(numbers) if (index + 1) % new_index != 0]
+        new_index = next(num for num in numbers if num not in used_index)
+        numbers = {num for i, num in enumerate(sorted(numbers), 1) if i % new_index != 0}
         used_index.append(new_index)
-
-    return numbers[nth-1]
-
+    return sorted(numbers)[nth - 1]
 
 print(get_lucky_number(25, 5)) #➞ 13)
 print(get_lucky_number(3, 2)) #➞ 13)
