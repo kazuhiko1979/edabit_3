@@ -40,32 +40,67 @@ check_board("c", 8) ➞ [
 Notes
 The queens' current position is a zero as it is impossible to move to this position during one turn, because the queen is already there.
 """
+
 import string
 
-def check_board(col, row):
+BOARD_SIZE = 8
 
-    matrix = [[0 for _ in range(8)] for _ in range(8)]
+def create_empty_board():
+     return [[0 for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 
-    col = string.ascii_lowercase.index(col)
-    row = 8 - int(row)
 
-    for i in range(8):
-        if i != row:
-            matrix[i][col] = 1
+def get_queen_position(col, row):
+    return string.ascii_lowercase.index(col), BOARD_SIZE - int(row)
+
+
+def mark_horizontal_vertical(board, row, col):
+    for i in range(BOARD_SIZE):
         if i != col:
-            matrix[row][i] = 1
+            board[row][i] = 1
+        if i != row:
+            board[i][col] = 1
 
-    for i in range(1, 8):
-        if row - i >= 0 and col - i >= 0:
-            matrix[row - i][col-i] = 1
-        if row - i >= 0 and col + i < 8:
-            matrix[row - i][col + i] = 1
-        if row + i < 8 and col - i >= 0:
-            matrix[row + i][col - i] = 1
-        if row + i < 8 and col + i < 8:
-            matrix[row + i][col + i] = 1
+def mark_diagonals(board, row, col):
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            if abs(row - i) == abs(col -j) and (i != row or j != col):
+                board[i][j] = 1
 
-    return matrix
+
+def check_board(col, row):
+    board = create_empty_board()
+    queen_col, queen_row = get_queen_position(col, row)
+    mark_horizontal_vertical(board, queen_row, queen_col)
+    mark_diagonals(board, queen_row, queen_col)
+    return board
+
+
+# import string
+#
+# def check_board(col, row):
+#
+#     matrix = [[0 for _ in range(8)] for _ in range(8)]
+#
+#     col = string.ascii_lowercase.index(col)
+#     row = 8 - int(row)
+#
+#     for i in range(8):
+#         if i != row:
+#             matrix[i][col] = 1
+#         if i != col:
+#             matrix[row][i] = 1
+#
+#     for i in range(1, 8):
+#         if row - i >= 0 and col - i >= 0:
+#             matrix[row - i][col-i] = 1
+#         if row - i >= 0 and col + i < 8:
+#             matrix[row - i][col + i] = 1
+#         if row + i < 8 and col - i >= 0:
+#             matrix[row + i][col - i] = 1
+#         if row + i < 8 and col + i < 8:
+#             matrix[row + i][col + i] = 1
+#
+#     return matrix
 
 print(check_board('a',5))
 print(check_board('f',1))
