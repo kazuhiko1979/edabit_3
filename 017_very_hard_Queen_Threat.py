@@ -41,38 +41,57 @@ Notes
 The queens' current position is a zero as it is impossible to move to this position during one turn, because the queen is already there.
 """
 
-import string
-
-BOARD_SIZE = 8
-
-def create_empty_board():
-     return [[0 for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
-
-
-def get_queen_position(col, row):
-    return string.ascii_lowercase.index(col), BOARD_SIZE - int(row)
-
-
-def mark_horizontal_vertical(board, row, col):
-    for i in range(BOARD_SIZE):
-        if i != col:
-            board[row][i] = 1
-        if i != row:
-            board[i][col] = 1
-
-def mark_diagonals(board, row, col):
-    for i in range(BOARD_SIZE):
-        for j in range(BOARD_SIZE):
-            if abs(row - i) == abs(col -j) and (i != row or j != col):
-                board[i][j] = 1
-
 
 def check_board(col, row):
-    board = create_empty_board()
-    queen_col, queen_row = get_queen_position(col, row)
-    mark_horizontal_vertical(board, queen_row, queen_col)
-    mark_diagonals(board, queen_row, queen_col)
+    col_idx = ord(col) - ord('a')
+    row_idx = 8 - int(row)
+
+    board = [[0] * 8 for _ in range(8)]
+
+    for i in range(8):
+        for j in range(8):
+            if i == row_idx or j == col_idx or abs(i - row_idx) == abs(j - col_idx):
+                board[i][j] = 1
+
+    board[row_idx][col_idx] = 0
+
     return board
+
+
+# import string
+#
+# BOARD_SIZE = 8
+#
+# def create_empty_board():
+#      return [[0 for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+#
+#
+# def get_queen_position(col, row):
+#     return string.ascii_lowercase.index(col), BOARD_SIZE - int(row)
+#
+#
+# def mark_horizontal_vertical(board, row, col):
+#     for i in range(BOARD_SIZE):
+#         if i != col:
+#             board[row][i] = 1
+#         if i != row:
+#             board[i][col] = 1
+#
+# def mark_diagonals(board, row, col):
+#     for i in range(BOARD_SIZE):
+#         for j in range(BOARD_SIZE):
+#             if abs(row - i) == abs(col -j) and (i != row or j != col):
+#                 board[i][j] = 1
+#
+#
+# def check_board(col, row):
+#     board = create_empty_board()
+#     queen_col, queen_row = get_queen_position(col, row)
+#     mark_horizontal_vertical(board, queen_row, queen_col)
+#     mark_diagonals(board, queen_row, queen_col)
+#     return board
+
+
 
 
 # import string
