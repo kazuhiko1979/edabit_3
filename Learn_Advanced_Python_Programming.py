@@ -18,6 +18,22 @@ class SLL:
             tail = tail.next
         tail.next = NewNode
 
+    def AtStart(self, newdata):
+        NewNode = Node(newdata)
+        NewNode.next = self.head
+        self.head = NewNode
+
+    def Inbetween(self, middle_node, newdata):
+        if middle_node is None:
+            print('The Mentioned Node does not Exist')
+            return
+
+        Newnode = Node(newdata)
+        Newnode.next = middle_node.next
+        middle_node.next = Newnode
+
+
+
     def listprint(self):
         output = self.head
         while output is not None:
@@ -34,4 +50,6 @@ e2.next = e3
 
 list1.AtEnd("Thurs")
 list1.AtEnd("Fri")
+list1.AtStart('Sat')
+list1.Inbetween(list1.head,'Sun')
 list1.listprint()
