@@ -34,11 +34,19 @@ def is_untouchable(number):
     if number < 2:
         return "Invalid Input"
 
-    numbers_range = list(range(2, (number ** 2) + 1))
+    def sum_of_divisors(n):
+        divisors_sum = 1
+
+        for i in range(2, int(n ** 0.5) + 1):
+            if n % i == 0:
+                divisors_sum += i
+                if i != n // i:
+                    divisors_sum += n // i
+        return divisors_sum
 
     matching_numbers = [
-        num for num in numbers_range
-        if sum([i for i in range(1, num) if num % i == 0]) == number
+        num for num in range(2, (number ** 2) + 1)
+        if sum_of_divisors(num) == number
     ]
 
     return True if not matching_numbers else matching_numbers
