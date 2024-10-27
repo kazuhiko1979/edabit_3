@@ -8,6 +8,7 @@ def separate_numbers(input_str: str) -> str:
     for first_length in range(1, str_length // 2 + 1):
         if is_valid_sequence(input_str, first_length):
             return "YES {}".format(input_str[:first_length])
+    return "NO"
 
 
 def is_valid_sequence(input_str: str, first_length: int) -> bool:
