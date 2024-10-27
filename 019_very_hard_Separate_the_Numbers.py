@@ -1,30 +1,30 @@
-def separate_numbers(input_str):
+def separate_numbers(input_str: str) -> str:
+
+    if input_str[0] == '0':
+        return "NO"
 
     str_length = len(input_str)
 
-    for first_digit_len in range(1, str_length // 2 + 1):
-        first_num = int(input_str[:first_digit_len])
+    for first_length in range(1, str_length // 2 + 1):
+        if is_valid_sequence(input_str, first_length):
+            return "YES {}".format(input_str[:first_length])
 
-        numbers = []
-        current_pos = 0
-        current_num = first_num
-        is_valid = True
 
-        while current_pos < str_length:
-            current_str = str(current_num)
+def is_valid_sequence(input_str: str, first_length: int) -> bool:
+    str_length = len(input_str)
+    current_pos = 0
+    current_num = int(input_str[:first_length])
 
-            if input_str[current_pos:].startswith(current_str):
-                numbers.append(current_str)
-                current_pos += len(current_str)
-                current_num += 1
-            else:
-                is_valid = False
-                break
+    while current_pos < str_length:
+        current_str = str(current_num)
 
-        if is_valid:
-            return "YES {}".format(numbers[0])
+        if not input_str[current_pos:].startswith(current_str):
+            return False
 
-    return "NO"
+        current_pos += len(current_str)
+        current_num += 1
+
+    return current_pos == str_length
 
 
 print(separate_numbers("99910001001"))
