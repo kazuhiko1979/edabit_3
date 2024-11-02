@@ -1,28 +1,31 @@
-import java.util.Scanner;
-
 public class tokyo_online {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        final int MEM = 70;
+        final int SUB = 3;
 
-        double heightCm  = scan.nextDouble();
-        double weightKg  = scan.nextDouble();
+        // 2次元配列
+        int[][] scores = new int[MEM][SUB];
 
-        double heightM = heightCm / 100.0;
+        // スコア
+        for (int i = 0; i < MEM; i++) {
+            scores[i][0] = (i * 87 + 71) % 101;
+            scores[i][2] = (i * 59 + 55) % 101;
+            scores[i][1] = (i * 79 + 23) % 101;
+        }
 
-        // 標準体重
-        double standardWeight = heightM * heightM * 22;
+        // 科目ごとの合計
+        int[] subTotals = new int[SUB];
 
-        // 標準体重と、入力体重の差
-        double weightDifference = weightKg - standardWeight;
+        // 合計の計算
+        for (int[] student : scores) {
+            for (int i = 0; i < SUB; i++) {
+                subTotals[i] += student[i];
+            }
+        }
 
-        System.out.printf("%.1f\n", standardWeight);
-
-        if (weightDifference < -10){
-            System.out.println("Underweight");
-        } else if (weightDifference <= 10) {
-            System.out.println("Normal");
-        } else {
-            System.out.println("Overweight");
+        // 平均
+        for (int i = 0; i < SUB; i++) {
+            System.out.printf("科目%d:%.2f%n", i + 1, (double)subTotals[i] / MEM);
         }
     }
 }
