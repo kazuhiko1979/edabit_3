@@ -22,26 +22,69 @@ Notes
 All numbers will be greater than 0.
 """
 
-def final_countdown(lst):
+def find_countdown(numbers, start, used_indices):
 
-    count_down = []
+    if start in used_indices:
+        return []
+
+    # 1から始まる場合は即座に[1]を返す
+    if numbers[start] == 1:
+        return [1]
+
+    sequence = []
+    current = numbers[start]
+    sequence_indices = []
+
+    # 現在の位置から連続する数値探索
+    for i in range(start, len(numbers)):
+
+        if i in used_indices:
+            return []
+
+        # 期待する数字(current)と一致するか確認
+        if numbers[i] == current:
+            sequence.append(current)
+            sequence_indices.append(i)
+            # 1まで到着したらシーケンス完成
+            if current == 1:
+                used_indices.update(sequence_indices)
+                return sequence
+            current -= 1
+        else:
+            return []
+
+    return []
+
+def final_countdown(numbers):
+
+    if not numbers:
+        return [0, []]
+
     result = []
+    used_indices = set()
 
-    for i, num in enumerate(reversed(lst)):
-        if num == 1:
-            count_down.append(num)
-        elif num > 1 and len(count_down) >= 1:
-            if (num - count_down[-1]) == 1:
-                count_down.append(num)
-            else:
-                result.append(count_down[::-1])
-                count_down = []
+    for i in range(len(numbers)):
+        sequence = find_countdown(numbers, i, used_indices)
+        if sequence:
+            result.append(sequence)
 
-    if count_down != []:
-        result.append(count_down[::-1])
-        return [len(result), result]
-    else:
-        return [len(result), result]
+    return [len(result), result]
+
+    # for i, num in enumerate(reversed(lst)):
+    #     if num == 1:
+    #         count_down.append(num)
+    #     elif num > 1 and len(count_down) >= 1:
+    #         if (num - count_down[-1]) == 1:
+    #             count_down.append(num)
+    #         else:
+    #             result.append(count_down[::-1])
+    #             count_down = []
+    #
+    # if count_down != []:
+    #     result.append(count_down[::-1])
+    #     return [len(result), result]
+    # else:
+    #     return [len(result), result]
 
 print(final_countdown([5,4,3,2,1])) #, [1, [[5, 4, 3, 2, 1]]])
 print(final_countdown([4, 4, 5, 4, 3, 2, 1, 8, 3, 2, 1]))
