@@ -27,6 +27,7 @@ def find_countdown(numbers, start, used_indices):
     if start in used_indices:
         return []
 
+
     # 1から始まる場合は即座に[1]を返す
     if numbers[start] == 1:
         return [1]
