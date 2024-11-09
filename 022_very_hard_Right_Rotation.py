@@ -39,34 +39,67 @@ Do not import any libraries - the challenge is to come up with your own solution
 Make sure your solution is efficient enough to cope with a large number of turns
 You must provide a default value for the turns parameter.
 """
+from typing import List
 
-def rotate_matrix(matrix, turns=1):
 
+def rotate_matrix(matrix: List[List[int]], turns: int = 1) -> List[List[int]]:
+    # 正負に関わらず4回転で元に戻るので、-4から3の範囲に正規化
     actual_turns = turns % 4
-
+    # 負の場合は左回転を右回転に変換（例：-1 → 3）
     if actual_turns < 0:
         actual_turns = actual_turns + 4
 
+    # 回転が0回の場合は、そのまま返す
     if actual_turns == 0:
         return matrix
 
-    rows = len(matrix)
-    columns = len(matrix[0]) if rows > 0 else 0
-
+    M = len(matrix)  # 行数
+    N = len(matrix[0])  # 列数
     current = matrix
 
+    # actual_turns回数分だけ90度回転を繰り返す
     for _ in range(actual_turns):
-        result = [[None for _ in range(rows)] for _ in range(columns)]
+        # 新しい配列を作成（N×M）
+        result = [[0 for _ in range(M)] for _ in range(N)]
 
-        for i in range(rows):
-            for j in range(columns):
-                result[j][rows-1-i] = current[i][j]
+        # 90度右回転の処理
+        for i in range(M):
+            for j in range(N):
+                result[j][M - 1 - i] = current[i][j]
 
+        # 次の回転のために現在の結果を保持
         current = result
-
-        rows, columns = columns, rows
+        # 次の回転のためにMとNを入れ替え
+        M, N = N, M
 
     return current
+# def rotate_matrix(matrix, turns=1):
+#
+#     actual_turns = turns % 4
+#
+#     if actual_turns < 0:
+#         actual_turns = actual_turns + 4
+#
+#     if actual_turns == 0:
+#         return matrix
+#
+#     rows = len(matrix)
+#     columns = len(matrix[0]) if rows > 0 else 0
+#
+#     current = matrix
+#
+#     for _ in range(actual_turns):
+#         result = [[None for _ in range(rows)] for _ in range(columns)]
+#
+#         for i in range(rows):
+#             for j in range(columns):
+#                 result[j][rows-1-i] = current[i][j]
+#
+#         current = result
+#
+#         rows, columns = columns, rows
+#
+#     return current
 
 
 
