@@ -21,30 +21,22 @@ def maximum_seating(seats):
 
     available_seat = 0
 
-    for i in range(0, len(seats)):
+    for i in range(len(seats)):
         if seats[i] == 0:
-            # 左側の2つの席が空いているかを確認
-            # i - 1 と i - 2 がリストの範囲外にならないようにする
             left_clear = True
             if i - 1 >= 0 and seats[i - 1] == 1:
                 left_clear = False
             if i - 2 >= 0 and seats[i - 2] == 1:
                 left_clear = False
 
-            # 右側の2つの席が空いているかを確認
-            # i + 1 と i + 2 がリストの範囲外にならないようにする
             right_clear = True
             if i + 1 < len(seats) and seats[i + 1] == 1:
                 right_clear = False
             if i + 2 < len(seats) and seats[i + 2] == 1:
                 right_clear = False
-
-            # 左右両方の条件を満たしていれば、この席に座れる
             if left_clear and right_clear:
                 seats[i] = 1
                 available_seat += 1
-
-    # print(seats)
     return available_seat
 
 
