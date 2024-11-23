@@ -2,13 +2,21 @@ import java.util.Scanner;
 
 public class tokyo_online {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        double base = scan.nextDouble();    // 底辺
-        double height = scan.nextDouble();  // 高さ
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
 
-        double area = base * height / 2.0;
+            if (line.isEmpty()) {
+                break;
+            }
 
-        System.out.println(area);
+            int charCount = line.replace(" ", "").length();
+
+            System.out.println(charCount);
+        }
     }
 }
+
+
+
