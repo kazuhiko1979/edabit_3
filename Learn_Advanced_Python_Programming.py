@@ -1,21 +1,33 @@
-class EAO:
-    def __init__(self, x=0, y=0, z=0):
-        self.x = x
-        self.y = y
-        self.z = z
-        
-    def __str__(self):
-        return "({0}, {1}, {2})".format(self.x, self.y, self.z)
-        
-    def __iadd__ (self, other):
-        x = self.x + other.x
-        y = self.y + other.y
-        z = self.z + other.z
-        return EAO(x, y, z)
+class Length_Conversion:
+    value = {"mm":0.001, "cm":0.01, "m":1, "km":1000, "im": 0.0254,
+            "ft":0.3048, "yd":0.9144, "mi":1609.344}
     
-obj1 = EAO(2, 3, 3)
-obj1 += EAO(3, 5, 5)
-print(obj1)
+    def __init__(self, x, value_unit="m"):
+        self.x = x
+        self.value_unit = value_unit
+    
+    def Convert_to_Metres(self):
+        return self.x * Length_Conversion.value[self.value_unit]
+    
+    def __add__(self, other):
+        ans = self.Convert_to_Metres() + other.Convert_to_Metres()
+        return Length_Conversion(ans / Length_Conversion.value[self.value_unit], self.value_unit)
+    
+    def __str__(self):
+        return str(self.Convert_to_Metres)
+    
+    def __repr__(self):
+        return "Length_Conversion(" + str(self.x) + " , " + self.value_unit + ")"
+
+if __name__ == "__main__":
+    obj1 = Length_Conversion(5.5, "yd") + Length_Conversion(1)
+    
+    print(repr(obj1))
+    print(obj1)
+    
+    
+    
         
-        
+    
+
 
