@@ -41,28 +41,40 @@ spartans_cipher("", 99) ➞ """
 
 def spartans_cipher(message, n_Slide):
   
-  base_cols = len(message) // n_Slide
-  excess = len(message) % n_Slide
-  if excess > 0:
-    base_cols += 1
+  # Calculate the number of colums required
+  # base_cols = len(message) // n_Slide
+  # if len(message) % n_Slide != 0:
+  #   base_cols += 1
   
-  grid = [["" for _ in range(base_cols)] for _ in range(n_Slide)]
+  # Create a grid with empty spaces
+  # grid = [["" for _ in range(base_cols)] for _ in range(n_Slide)]
   
-  index = 0
-  for row in range(n_Slide):
-    for col in range(base_cols):
-      if index < len(message):
-        grid[row][col] = message[index]
-        index += 1
-      else:
-        grid[row][col] = " "
+  n_cols = -(-len(message) // n_Slide)  # Ceiling division
+
   
+  # Fill the grid row by row
+  grid = [
+        [message[i * n_cols + j] if i * n_cols + j < len(message) else " " for j in range(n_cols)]
+        for i in range(n_Slide)
+    ]
+  
+  
+  # index = 0
+  # for row in range(n_Slide):
+  #   for col in range(base_cols):
+  #     if index < len(message):
+  #       grid[row][col] = message[index]
+  #       index += 1
+  #     else:
+  #       grid[row][col] = " "
+  
+  # Transpose
   grid = list(map(list, zip(*grid)))
+  
+  # Flatten
   grid = ''.join([''.join(row) for row in grid]).strip()
   return grid
   
-  
-
 
 print(spartans_cipher("Mubashir Scytale Code", 6)) # "Ms t euhSaC biclo aryed")
 print(spartans_cipher("Matt and Edabit are amazing", 8)) # "M  baai aaEirmn tndteag tda  z")
