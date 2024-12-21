@@ -32,18 +32,20 @@ The elements inside the nested list will always be distinct, to avoid questions 
 Some nesting levels may be empty. Recall that 0!=1."""
 
 import math
+
 def nespers(lst):
   
-  def factorial(n):
-    return math.factorial(n)
+  # def factorial(n):
+  #   return math.factorial(n)
   
-  if not isinstance(lst, list):
-    return 1
+  # if not isinstance(lst, list):
+  #   return 1
   
-  total_permutations = factorial(len(lst))
+  total_permutations = math.factorial(len(lst))
   
   for element in lst:
-    total_permutations *= nespers(element)
+    if type(element) is list:
+      total_permutations *= nespers(element)
     
   return total_permutations
 
