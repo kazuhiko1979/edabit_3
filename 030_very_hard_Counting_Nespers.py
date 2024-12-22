@@ -35,12 +35,6 @@ import math
 
 def nespers(lst):
   
-  # def factorial(n):
-  #   return math.factorial(n)
-  
-  # if not isinstance(lst, list):
-  #   return 1
-  
   total_permutations = math.factorial(len(lst))
   
   for element in lst:
