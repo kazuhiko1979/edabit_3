@@ -24,32 +24,49 @@ hidden_anagram("Bright is the moon", "Bongo mirth") ➞ "noutfond"
 # The words "Bright moon" are an anagram of "bongo mirth" but they are
 # not a continuous alphabetical sequence because the words "is the" are in
 # between. Hence the negative result, "noutfond" is returned."""
+
 import string
+import re
 
 def hidden_anagram(sentence, target):
   
-    # スペースや記号を削除し、小文字に変換
-    def clean_text(text):
-        return ''.join(c for c in text.lower() if c in string.ascii_lowercase)
+    text = re.sub(r'[^a-z]', '', sentence.lower())
+    phrase = re.sub(r'[^a-z]', '', target.lower())
+    
+    for i in range(len(text)):
+        if sorted(phrase) == sorted(text[i:i + len(phrase)]):
+            return text[i:i + len(phrase)]
+    return 'noutfond'
+    
+    # """
+    # Finds the hidden anagram of the target string within the sentence.
 
+    # Args:
+    #     sentence (str): The sentence to search within.
+    #     target (str): The target string to find as an anagram.
 
-    clean_sentence = clean_text(sentence)
-    clean_target = clean_text(target)
-    
-    sorted_target = ''.join(sorted(clean_target))    
-    target_length = len(clean_target)
-    
-    # print(sorted_target)
-    # print(target_length)
-    
-    
-    for i in range(len(clean_sentence) - target_length + 1):
-      substring = clean_sentence[i:i + target_length]
-      if ''.join(sorted(substring)) == sorted_target:
-        return substring
-    else:
-      return 'noutfond'
+    # Returns:
+    #     str: The anagram if found, otherwise 'noutfond'.
+    # """
   
+    # def clean_text(text):
+    #     # return ''.join(c for c in text.lower() if c in string.ascii_lowercase)
+    #     return ''.join(filter(str.isalpha, text.lower()))
+
+    # # Clean and preprocess inputs
+    # clean_sentence = clean_text(sentence)
+    # clean_target = clean_text(target)
+
+    # # Prepare the target for comparison
+    # sorted_target = ''.join(sorted(clean_target))    
+    # target_length = len(clean_target)
+    
+    # # Sliding window to check substrings
+    # for i in range(len(clean_sentence) - target_length + 1):
+    #   substring = clean_sentence[i:i + target_length]
+    #   if ''.join(sorted(substring)) == sorted_target:
+    #     return substring
+    # return 'noutfond'
 
 
 print(hidden_anagram("Sir Patrick Moore was a famous moon starer", "Astronomer")) #  "moonstarer")
