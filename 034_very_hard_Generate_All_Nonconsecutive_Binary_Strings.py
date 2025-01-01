@@ -15,17 +15,21 @@ import itertools
 
 def generate_nonconsecutive(n):
     
+    valid_strings = [''.join(bits) for bits in itertools.product("01", repeat=n) if '11' not in ''.join(bits)]
+    
+    return ' '.join(valid_strings)
+    
     # ステップ2: 長さnのすべての2進数列を生成する
     # - 0と1のすべての組み合わせを作成する（例: 00, 01, 10, 11など）
     # - itertoolsなどを使うと便利
-    consecutives = list(itertools.product(["0","1"], repeat=n))
-    temp = [nums for nums in consecutives if not '11' in ''.join(nums)]
-    result = ""
-    for i in temp:
-        result += ''.join(i)
-        result += ' '
+    # consecutives = list(itertools.product(["0","1"], repeat=n))
+    # temp = [nums for nums in consecutives if not '11' in ''.join(nums)]
+    # result = ""
+    # for i in temp:
+    #     result += ''.join(i)
+    #     result += ' '
         
-    return result.lstrip()
+    # return result.lstrip()
             
         
 print(generate_nonconsecutive(1))
