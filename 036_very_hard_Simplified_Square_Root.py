@@ -36,9 +36,15 @@ If n has no perfect square factors (other than 1), a should be 1."""
 
 def simplify_sqrt(n):
     
-    divisors = [i for i in range(1, n + 1) if n % i == 0]
-    square_divisors = [i for i in divisors if int(i**0.5)**2 == i]
-    max_square = max(square_divisors)
+    max_square = 1
+    for i in range(1, int(n**0.5) + 1):
+        square = i**2
+        if n % square == 0:
+            max_square = square
+    
+    # divisors = [i for i in range(1, n + 1) if n % i == 0]
+    # square_divisors = [i for i in divisors if int(i**0.5)**2 == i]
+    # max_square = max(square_divisors)
     
     a = int(max_square**0.5)
     b = n // max_square
