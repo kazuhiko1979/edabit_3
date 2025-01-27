@@ -34,17 +34,15 @@ def stem_plot(lst):
         if stem not in stem_list_dict:
             stem_list_dict[stem] = []
         stem_list_dict[stem].append(int(leaf))
-
     
     result = []
-    for s in sorted(stem_list_dict.keys(), key=lambda x: int(x)):
+    for stem in sorted(stem_list_dict.keys(), key=lambda x: int(x)):
         leaf = " ".join(map(str, sorted(stem_list_dict[stem])))
-        result.append(f"{stem} | {leaf}")
+        # result.append(f"{stem} | {leaf}")
+        result.append("{} | {}".format(stem, leaf))
     
     return result
         
-
-
 
 print(stem_plot([111, 11, 1])) # ["0 | 1", "1 | 1", "11 | 1"], "Example #1")
 print(stem_plot([4, 8, 75])) # ["0 | 4 8", "7 | 5"], "Example #2")
