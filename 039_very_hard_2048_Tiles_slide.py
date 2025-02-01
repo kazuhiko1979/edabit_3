@@ -27,28 +27,24 @@ Keep trailing zeros in the output."""
 
 def left_slide(row):
     # 0を除去して左詰め
-    non_zero_row = [num for num in row if num != 0]
-    
-    merged = [False] * len(row)
+    result = [num for num in row if num != 0]
     
     # 隣同士を合体
     i = 0
-    while i < len(non_zero_row) - 1:
-        if non_zero_row[i] == non_zero_row[i+1] and not merged[i] and not merged[i+1]:
+    while i < len(result) - 1:
+        if result[i] == result[i+1]:
             # 合体
-            non_zero_row[i] *=2
+            result[i] *=2
             # 合体済みフラグを設定
-            merged[i] = True
             # 次の要素を削除
-            non_zero_row.pop(i+1)
-            merged.pop(i+1)
-        else:
-            i += 1
+            result.pop(i+1)
+            result.append(0)
+        i += 1
             
     # 0を追加して元の長さに戻す
-    non_zero_row += [0] * (len(row) - len(non_zero_row))
+    result += [0] * (len(row) - len(result))
     
-    return non_zero_row
+    return result
         
 
 print(left_slide([2, 2, 2, 0])) # [4, 2, 0, 0])
