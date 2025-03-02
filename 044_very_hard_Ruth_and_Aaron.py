@@ -42,38 +42,52 @@ ruth_aaron(11) ➞ False
 """
 
 def ruth_aaron(n):
-    # 素因数の重複なし合計を求める関数
+    
+    def get_prime_factors(x):
+        """
+        自然数 x の素因数を、重複を含めて列挙したリストを返す。
+        例: 12 -> [2, 2, 3]
+        """
+        factors = []
+        num = x
+        factor = 2
+        while factor * factor <= num:
+            while num % factor == 0:
+                factors.append(factor)
+                num //= factor
+            factor += 1 if factor == 2 else 2
+        if num > 1:
+            factors.append(num)
+        return factors
+        
+        
     def sum_of_distinct_prime_factors(x):
-        distinct_factors = set()
-        num = x
-        factor = 2
-        while factor * factor <= num:
-            while num % factor == 0:
-                distinct_factors.add(factor)
-                num //= factor
-            factor += 1 if factor == 2 else 2
-        if num > 1:
-            distinct_factors.add(num)
-        return sum(distinct_factors)
-    
-     # 素因数の重複あり合計を求める関数
+        """
+        x の「異なる素因数」だけの和を返す。
+        例: 24 -> [2, 3] の和 = 5
+        """
+        return sum(set(get_prime_factors(x)))
+
+
     def sum_of_prime_factors_with_multiplicity(x):
-        total = 0
-        num = x
-        factor = 2
-        while factor * factor <= num:
-            while num % factor == 0:
-                total += factor
-                num //= factor
-            factor += 1 if factor == 2 else 2
-        if num > 1:
-            total += num
-        return total
+        """
+        x の素因数(重複含む) の和を返す。
+        例: 8 -> [2, 2, 2] の和 = 6
+        """
+        return sum(get_prime_factors(x))
+        
     
-    # (a, b) のペアが Ruth–Aaron かを判定し、
-    # 1,2,3 のいずれか (または 0) を返す関数
-    # 0 = ペアではない、1 = 異なる素因数だけ一致、2 = 重複ありだけ一致、3 = 両方
     def check_pair(a, b):
+        """
+        2 つの整数 a, b が Ruth–Aaron の関係かを調べて
+        0, 1, 2, 3 のいずれかを返す。
+
+        返り値:
+          0: ペアではない
+          1: 重複なしだけ一致
+          2: 重複ありだけ一致
+          3: 両方一致
+        """
         sd_a = sum_of_distinct_prime_factors(a)
         sd_b = sum_of_distinct_prime_factors(b)
         sm_a = sum_of_prime_factors_with_multiplicity(a)
