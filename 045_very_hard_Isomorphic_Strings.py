@@ -30,22 +30,38 @@ def is_isomorphic(s, t) -> bool:
     
     # 3. 文字列 s と t を同時に走査し、対応をチェックする。
     for char_s, char_t in zip(s, t):
-        # 3-1. s の文字がすでに t の文字に対応している場合
-        if char_s in s_to_t:
-            # その対応が正しいかチェック
-            if s_to_t[char_s] != char_t:
-                return False
-        # 3-2. t の文字がすでに s の文字に対応している場合
-        else:
-            # 3-3. どちらにも対応がない場合、新たな対応を記録
-            s_to_t[char_s] = char_t
         
-        if char_t in t_to_s:
-            # その対応が正しいかチェック
-            if t_to_s[char_t] != char_s:
+        mapped_char = s_to_t.get(char_s)
+        
+        if mapped_char is not None:
+            if mapped_char != char_t:
                 return False
         else:
+            # 新しく対応関係を登録するが、
+            # その際、t側の文字がほかの s側の文字とすでに対応していないか確認
+            if char_t in t_to_s and t_to_s[char_t] != char_s:
+                return False
+            
+            s_to_t[char_s] = char_t
             t_to_s[char_t] = char_s
+            
+              
+        # # 3-1. s の文字がすでに t の文字に対応している場合
+        # if char_s in s_to_t:
+        #     # その対応が正しいかチェック
+        #     if s_to_t[char_s] != char_t:
+        #         return False
+        # # 3-2. t の文字がすでに s の文字に対応している場合
+        # else:
+        #     # 3-3. どちらにも対応がない場合、新たな対応を記録
+        #     s_to_t[char_s] = char_t
+        
+        # if char_t in t_to_s:
+        #     # その対応が正しいかチェック
+        #     if t_to_s[char_t] != char_s:
+        #         return False
+        # else:
+        #     t_to_s[char_t] = char_s
     
     return True
 
