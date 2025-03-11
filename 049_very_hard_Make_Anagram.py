@@ -16,16 +16,16 @@ from collections import Counter
 
 def make_anagram(str1, str2):
     
-    # 各文字の出現回数をカウント
-    count1 = Counter(str1)
-    count2 = Counter(str2)
+    # # 各文字の出現回数をカウント
+    # count1 = Counter(str1)
+    # count2 = Counter(str2)
     
-    # すべてのユニークな文字を取得
-    unique_chars = set(count1.keys()).union(set(count2.keys()))
+    # # すべてのユニークな文字を取得
+    # unique_chars = set(count1.keys()).union(set(count2.keys()))
     
     # 削除する文字数を計算
-    deletions = sum(abs(count1[char] - count2[char]) for char in unique_chars)
-    return deletions
+    return sum(abs(str1.count(char) - str2.count(char)) for char in set(str1 + str2))
+    # return deletions
     
 print(make_anagram('fcrxzwscanmligyxyvym', 'jxwtrhvujlmrpdoqbisbwhmgpmeoke')) # 30)
 print(make_anagram('bugexikjevtubidpulaelsbcqlupwetzyzdvjphn', 'lajoipfecfinxjspxmevqxuqyalhrsxcvgsdxxkacspbchrbvvwnvsdtsrdk')) # 40)
