@@ -23,32 +23,25 @@ The word itself counts as a potential substring.
 Exclude the empty string when outputting the array.
 """
 
-def get_vowel_substrings(s):
+def get_substrings(s, is_vowel=True):
     vowels = "aeiou"
     substrings = set()
     
     for i in range(len(s)):
-        if s[i] in vowels:
+        if (s[i] in vowels) == is_vowel:
             for j in range(i, len(s)):
-                if s[j] in vowels:
+                if (s[j] in vowels) == is_vowel:
                     substrings.add(s[i:j+1])
                     
     return sorted(substrings)
 
+def get_vowel_substrings(s):
+    return get_substrings(s, is_vowel=True)
 
 def get_consonant_substrings(s):
-    vowels = "aeiou"
-    substrings = set()
+    return get_substrings(s, is_vowel=False)
     
-    for i in range(len(s)):
-        if s[i] not in vowels:
-            for j in range(i, len(s)):
-                if s[j] not in vowels:
-                    substrings.add(s[i:j+1])
-                    
-    return sorted(substrings)
-
-
+    
 
 
 print(get_vowel_substrings("apple")) # ["a", "apple", "e"])
