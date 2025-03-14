@@ -43,7 +43,6 @@ def get_consonant_substrings(s):
     
     
 
-
 print(get_vowel_substrings("apple")) # ["a", "apple", "e"])
 print(get_vowel_substrings("carrot")) # ["a", "arro", "o"])
 print(get_vowel_substrings("aviation")) # ["a", "ati", "atio", "avi", "avia", "aviati", "aviatio", "i", "ia", "iati", "iatio", "io", "o"])
