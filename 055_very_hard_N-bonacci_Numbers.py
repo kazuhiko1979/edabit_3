@@ -32,20 +32,10 @@ def bonacci(N, k):
     # 初期値：N-1個の0と、1を1つ
     seqence = [0] * (N - 1) + [1]
     
-    # ステップ2: 最初の決まりを入れる
-    # 最初に、0を(N-1)回くり返してリストに入れる（例：N=3なら 0, 0）
-    # 次に、1を1つ入れる（N番目の要素は必ず1と決まっている）
-    # for i in range(N-1):
-    #     seq.append(0)
-    # seq.append(1)
-    
+    # N番目以降は、直前のN個の和を追加していく
     for _ in range(k-N):
         seqence.append(sum(seqence[-N:]))
-        # last_N = seq[-N:]
-        # total_last_N = sum(last_N)
-        # seq.append(total_last_N)
-    
-    return seq[-1]
+    return seqence[-1]
     
     
 print(bonacci(2, 7)), # 8)
